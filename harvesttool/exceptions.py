@@ -1,0 +1,2 @@
+class HarvestToolException(Exception):
+    pass
