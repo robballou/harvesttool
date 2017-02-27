@@ -59,14 +59,14 @@ def find_configuration_file(args = None):
     use_sources = []
     for source in sources:
         source_path = os.path.expanduser(source)
-        if os.path.exists(source_path):
+        if os.path.exists(source_path) and source_path not in use_sources:
             use_sources.append(source_path)
 
     cwd = os.getcwd()
     while cwd != '/':
-        if os.path.exists(os.path.join(cwd, '.harvest.json')):
+        if os.path.exists(os.path.join(cwd, '.harvest.json')) and os.path.join(cwd, '.harvest.json') not in use_sources:
             use_sources.append(os.path.join(cwd, '.harvest.json'))
-        elif os.path.exists(os.path.join(cwd, '.harvest.yml')):
+        elif os.path.exists(os.path.join(cwd, '.harvest.yml')) and os.path.join(cwd, '.harvest.yml') not in use_sources:
             use_sources.append(os.path.join(cwd, '.harvest.yml'))
         cwd = os.path.dirname(cwd)
 
@@ -101,11 +101,6 @@ def load():
                 configuration = merge_configurations(configuration, this_configuration)
 
     default_configuration = {
-        'options': {
-            'status': {
-                'closed': ['Closed', 'Resolved', 'Done']
-            }
-        }
     }
 
     configuration = merge_configurations(configuration, default_configuration)
