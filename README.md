@@ -45,6 +45,12 @@ This file should be restricted to `0600`.
 
 ## Commands
 
+### config
+
+* `config.list`: output configuration
+* `config.formatters`: list available formatters
+* `config.sources`: list configuration sources used
+
 ### timesheet
 
 * `timesheet.today`: output today's time
