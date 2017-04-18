@@ -54,5 +54,6 @@ This file should be restricted to `0600`.
 ### timesheet
 
 * `timesheet.today`: output today's time
+* `timesheet.week`: output this week's time
 * `timesheet.billable`: output today's billable time
 * `timesheet.total`: output today's total time
