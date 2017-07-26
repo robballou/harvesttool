@@ -7,6 +7,22 @@ import shutil
 import requests
 import datetime
 
+def entry_is_billable(entry, projects):
+    project_id = int(entry['project_id'])
+    project = projects[project_id]
+
+    if not project['billable']:
+        return False
+
+    task_id = int(entry['task_id'])
+    task = [task for task in project['tasks'] if task['id'] == task_id]
+
+    if not task[0]['billable']:
+        return False
+
+    return True
+
+
 def get_sums(data):
     day_sum = sum([entry['hours'] for entry in data['day_entries']])
 
@@ -15,7 +31,11 @@ def get_sums(data):
     for project in data['projects']:
         if int(project['id']) in project_ids:
             projects[int(project['id'])] = project
-    billable_sum = sum([entry['hours'] for entry in data['day_entries'] if projects[int(entry['project_id'])]['billable']])
+    for entry in data['day_entries']:
+        print(int(entry['project_id']))
+        print(entry)
+        print(projects[int(entry['project_id'])])
+    billable_sum = sum([entry['hours'] for entry in data['day_entries'] if entry_is_billable(entry, projects)])
     return (billable_sum, day_sum)
 
 class AddCommand(Cmd):
